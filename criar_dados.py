@@ -22,26 +22,59 @@ data_prep = []
 i = 1
 
 def acharMedianaData(data, maximun, filtro):
+    a = np.count_nonzero(np.where(data[:maximun] == filtro))
+    if(math.isnan(a)):
+        return 0
+    else:
+        return a
+
+def acharCountData(data, maximun, filtro):
     a = np.nanmean(np.where(data[:maximun] == filtro))
     if(math.isnan(a)):
         return 0
     else:
         return a
+
+def acharMedianData(data, maximun, filtro):
+    a = np.median(np.where(data[:maximun] == filtro))
+    if(math.isnan(a)):
+        return 0
+    else:
+        return a
+
+def acharAverageData(data, maximun, filtro):
+    a = np.average(np.where(data[:maximun] == filtro))
+    if(math.isnan(a)):
+        return 0
+    else:
+        return a
     
-while i < data.shape[0]:
+target  = 152    
+    
+while i < data.shape[0]+1:
   d = 0;
-  if(i <= 52):
+  if(i <= target):
     d = 0
   else:
-    d = i-52
+    d = i-target
   
   y = 0
-  linha = [[[] for x in range(1,11)]for x in range(1,61)]
+  linha = [[[] for x in range(1,41)]for x in range(1,61)]
   
   while(y < 60):
     z = 0
     while(z < 10):
         linha[y][z] = acharMedianaData(data[d:i], int(i * (z / 100))+1, y)
+        z += 1
+
+    while(z < 20):
+        linha[y][z] = acharCountData(data[d:i], int(i * (z / 100))+1, y)
+        z += 1
+    while(z < 30):
+        linha[y][z] = acharMedianData(data[d:i], int(i * (z / 100))+1, y)
+        z += 1
+    while(z < 40):
+        linha[y][z] = acharAverageData(data[d:i], int(i * (z / 100))+1, y)
         z += 1
     y += 1
   data_prep.append(linha)
